@@ -20,12 +20,12 @@ window.addEventListener('load', function () {
     var cards = [];
     var cardIds = [];
 
-    // Create array of card IDs
+    // Array von card IDs
     for (var i = 1; i <= 16; i++) {
         cardIds.push(i);
     }
 
-    // Shuffle the array of card IDs
+    // Array der Card IDs mischen
     for (var i = cardIds.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
         var temp = cardIds[i];
@@ -33,53 +33,53 @@ window.addEventListener('load', function () {
         cardIds[j] = temp;
     }
 
-    // Create cards with shuffled IDs
+    // Gemischte Karten neue ID zuweisen
     for (var i = 0; i < 16; i++) {
-        // Create new card element
+        // Neues Karten Element
         var card = document.createElement('img');
         card.src = 'pics/memoryBg.png';
         card.classList.add('card');
         card.setAttribute('data-card-id', cardIds[i]);
         card.addEventListener('click', function () {
             if (cards.length < 2 && !this.classList.contains('solved')) {
-                // Show clicked card
+                // Ausgewählte Karte anzeigen
                 this.src = 'pics/card' + this.getAttribute('data-card-id') + '.png';
                 cards.push(this);
 
-                // If two cards are clicked
+                // Wenn 2 Karten ausgewählt wurden
                 if (cards.length == 2) {
-                    // Disable clicking until cards are checked
+                    // Neuauswahl disabled bis Karten gecheckt wurden
                     cardsContainer.classList.add('disabled');
 
                     attempts++;
                     attemptsElement.innerText = attempts;
 
-                    // Check if cards match
+                    // Schauen ob Karten gleich sind
                     var sum = parseInt(cards[0].getAttribute('data-card-id')) + parseInt(cards[1].getAttribute('data-card-id'));
                     if (sum % 17 == 0) {
                         setTimeout(function () {
-                            // Mark cards as solved and disable clicking
+                            // Karten als gelöst markieren
                             cards[0].src = 'pics/memoryBgI.png';
                             cards[0].classList.add('solved');
                             cards[1].src = 'pics/memoryBgI.png';
                             cards[1].classList.add('solved');
                             cardsContainer.classList.remove('disabled');
                             cards = [];
-                        }, 2000);
+                        }, 1000);
                     } else {
-                        // Show cards for 2 seconds before hiding again
+                        // Karten werden gezeigt, bevor sie umgedreht werden
                         setTimeout(function () {
                             cards[0].src = 'pics/memoryBg.png';
                             cards[1].src = 'pics/memoryBg.png';
                             cardsContainer.classList.remove('disabled');
                             cards = [];
-                        }, 2000);
+                        }, 1000);
                     }
                 }
             }
         });
 
-        // Add card to container
+        // Karten zum Kontainer hinzufügen
         cardsContainer.appendChild(card);
     }
 });
